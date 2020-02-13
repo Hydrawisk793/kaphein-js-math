@@ -1,0 +1,29 @@
+{
+  "name": "kaphein-js-math",
+  "version": "0.1.0",
+  "description": "A mathematics toolkit for developing various softwares in JavaScript.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "kaphein-js": "~0.1.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hydrawisk793/kaphein-js-math.git"
+  },
+  "bundledDependencies": [],
+  "author": "Hydrawisk793 <hyw793@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hydrawisk793/kaphein-js-math/issues"
+  },
+  "homepage": "https://github.com/Hydrawisk793/kaphein-js-math#readme"
+}
