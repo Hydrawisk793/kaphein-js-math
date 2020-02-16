@@ -303,7 +303,7 @@ var Interval = (function ()
         /**
          *  @returns {number}
          */
-        getMinimum()
+        getMinimum : function getMinimum()
         {
             return this._min;
         },
@@ -311,7 +311,7 @@ var Interval = (function ()
         /**
          *  @returns {number}
          */
-        getMaximum()
+        getMaximum : function getMaximum()
         {
             return this._max;
         },
@@ -320,7 +320,7 @@ var Interval = (function ()
          *  @param {Interval|number} rhs
          *  @param {number} [epsilon]
          */
-        equals(rhs)
+        equals : function equals(rhs)
         {
             var result = this === rhs;
 
@@ -346,7 +346,7 @@ var Interval = (function ()
          *  @param {Interval|number} rhs
          *  @param {number} [epsilon]
          */
-        compareTo(rhs)
+        compareTo : function compareTo(rhs)
         {
             var epsilon = isNumber(arguments[1]) ? arguments[1] : _epsilon;
 
@@ -372,7 +372,7 @@ var Interval = (function ()
          *  @param {Interval|number} rhs
          *  @param {number} [epsilon]
          */
-        intersectsWith(rhs)
+        intersectsWith : function intersectsWith(rhs)
         {
             var epsilon = isNumber(arguments[1]) ? arguments[1] : _epsilon;
 
@@ -392,7 +392,7 @@ var Interval = (function ()
          *  @param {Interval|number|number[]|string} rhs
          *  @param {number} [epsilon]
          */
-        contains(rhs)
+        contains : function contains(rhs)
         {
             var epsilon = isNumber(arguments[1]) ? arguments[1] : _epsilon;
 
@@ -432,7 +432,7 @@ var Interval = (function ()
          *  @param {number} [epsilon]
          *  @returns {Interval[]}
          */
-        negate()
+        negate : function negate()
         {
             var epsilon = isNumber(arguments[2]) ? arguments[2] : _epsilon;
 
@@ -471,7 +471,7 @@ var Interval = (function ()
          *  @param {Interval} other
          *  @param {number} [epsilon]
          */
-        exclude(other)
+        exclude : function exclude(other)
         {
             if(!(other instanceof Interval)) {
                 throw new TypeError("'other' must be an instance of 'Interval'.");
@@ -495,7 +495,7 @@ var Interval = (function ()
         /**
          *  @return {[number, number]}
          */
-        toArray()
+        toArray : function toArray()
         {
             return [this._min, this._max];
         },
@@ -503,7 +503,7 @@ var Interval = (function ()
         /**
          *  @returns {string}
          */
-        toString()
+        toString : function toString()
         {
             return '['
                 + _intToString(this._min)
@@ -511,7 +511,7 @@ var Interval = (function ()
                 + _intToString(this._max)
                 + ']'
             ;
-        },
+        }
     });
 
     /**
@@ -608,7 +608,7 @@ var Interval = (function ()
     function _createSortedIntervalListSet(intervals)
     {
         var comparerParams = {
-            epsilon : (isNumber(arguments[1]) ? arguments[1] : _epsilon),
+            epsilon : (isNumber(arguments[1]) ? arguments[1] : _epsilon)
         };
         /**  @type {Interval[]} */var sortedIntervals = [];
         for(var i = 0, len = intervals.length; i < len; ++i) {
