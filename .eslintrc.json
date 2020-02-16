@@ -1,23 +1,23 @@
 {
+    "root": true,
     "env": {
-        "browser": true,
         "commonjs": true,
-        "es6": true
+        "es6": true,
+        "node": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended"
+        "eslint:recommended"
     ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
-    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2018
+        "ecmaVersion": 3
     },
-    "plugins": [
-        "@typescript-eslint"
+    "ignorePatterns": [
+        "dist/",
+        "node_modules/"
     ],
     "rules": {
     }
