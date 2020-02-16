@@ -14,8 +14,9 @@ module.exports = (function ()
         output : {
             filename : "index.js",
             path : path.resolve(__dirname, outputDirectoryName),
-            library : "kapheinJs",
-            libraryTarget : "umd"
+            library : "kapheinJsMath",
+            libraryTarget : "umd",
+            globalObject: "this"
         },
         optimization : {
             minimizer : [new UglifyJsPlugin()]
