@@ -1,7 +1,5 @@
 var path = require("path");
-
 var CopyWebpackPlugin = require("copy-webpack-plugin");
-var UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 var nodeExternals = require('webpack-node-externals');
 
 module.exports = (function ()
@@ -16,19 +14,18 @@ module.exports = (function ()
             path : path.resolve(__dirname, outputDirectoryName),
             library : "kapheinJsMath",
             libraryTarget : "umd",
-            globalObject: "this"
-        },
-        optimization : {
-            minimizer : [new UglifyJsPlugin()]
+            globalObject : "this"
         },
         plugins : [
-            new CopyWebpackPlugin([
-                {
-                    context : "src",
-                    from : "**/*.d.ts",
-                    to : ""
-                }
-            ]),
+            new CopyWebpackPlugin({
+                patterns : [
+                    {
+                        context : "src",
+                        from : "**/*.d.ts",
+                        to : ""
+                    }
+                ]
+            }),
         ],
         module : {
 

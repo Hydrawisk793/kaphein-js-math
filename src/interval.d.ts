@@ -1,4 +1,4 @@
-declare class Interval
+export declare class Interval
 {
     public static disjoin(
         intervals : Interval[],
@@ -79,7 +79,3 @@ declare class Interval
      */
     public toString() : string;
 }
-
-export {
-    Interval,
-};
