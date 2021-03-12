@@ -19,46 +19,55 @@ var Interval = (function ()
      */
     function Interval(value1)
     {
-        switch(arguments.length) {
+        switch(arguments.length)
+        {
         case 0:
             throw new TypeError("At least one number or an Interval instance must be passed.");
         // break;
         case 1:
-            if(value1 instanceof Interval) {
+            if(value1 instanceof Interval)
+            {
                 this._min = value1._min;
                 this._max = value1._max;
             }
-            else if(isNumber(value1)) {
+            else if(isNumber(value1))
+            {
                 this._min = this._max = value1;
             }
-            else if(Array.isArray(value1) && value1.length >= 2) {
-                if(relativelyLessThan(value1[1], value1[0])) {
+            else if(Array.isArray(value1) && value1.length >= 2)
+            {
+                if(relativelyLessThan(value1[1], value1[0]))
+                {
                     throw new RangeError("'max' must be greater than or equal to 'min'.");
                 }
 
                 this._min = value1[0];
                 this._max = value1[1];
             }
-            else {
+            else
+            {
                 throw new TypeError("The parameter must be either an Interval instance, number or an array of two numbers.");
             }
-        break;
+            break;
         case 2:
             var value2 = arguments[1];
 
-            if(!isNumber(value1) || !isNumber(value2)) {
+            if(!isNumber(value1) || !isNumber(value2))
+            {
                 throw new TypeError("Both 'value1' and 'value2' must be numbers.");
-            }            
+            }
 
-            if(value1 < value2) {
+            if(value1 < value2)
+            {
                 this._min = value1;
                 this._max = value2;
             }
-            else {
+            else
+            {
                 this._min = value2;
                 this._max = value1;
             }
-        break;
+            break;
         default:
             throw new Error("An unknown combination of arguments.");
         }
@@ -74,24 +83,27 @@ var Interval = (function ()
     {
         var disjoinedIntervals = [];
 
-        switch(intervals.length) {
+        switch(intervals.length)
+        {
         case 0:
             // Does nothing.
-        break;
+            break;
         case 1:
             disjoinedIntervals.push(new Interval(intervals[0]._min, intervals[0]._max));
-        break;
+            break;
         default:
             var j = 0, sortedPointMaxIndex = 0, endOfClosureIndex = 0;
             var neighbor = null;
             var sortedPoints = [];
             var sortedListSet = _createSortedIntervalListSet(intervals, arguments[2]);
-            for(var i = 0, len = sortedListSet.length; i < len; ) {
+            for(var i = 0, len = sortedListSet.length; i < len; )
+            {
                 j = 0;
 
                 endOfClosureIndex = _findEndOfClosureIndex(sortedListSet, i);
                 sortedPoints.length = 0;
-                for(j = i; j < endOfClosureIndex; ++j) {
+                for(j = i; j < endOfClosureIndex; ++j)
+                {
                     neighbor = sortedListSet[j];
                     _insertIfNotExistAndSort(
                         sortedPoints,
@@ -104,21 +116,27 @@ var Interval = (function ()
                 }
 
                 sortedPointMaxIndex = sortedPoints.length - 1;
-                if(arguments[1]) {
+                if(arguments[1])
+                {
                     disjoinedIntervals.push(new Interval(sortedPoints[0], sortedPoints[sortedPointMaxIndex]));
                 }
-                else {
-                    if(disjoinedIntervals.length < 2) {
-                        if(sortedPointMaxIndex > 0) {
+                else
+                {
+                    if(disjoinedIntervals.length < 2)
+                    {
+                        if(sortedPointMaxIndex > 0)
+                        {
                             throw new Error("What the hell???");
                         }
 
                         disjoinedIntervals.push(new Interval(sortedPoints[0], sortedPoints[0]));
                     }
-                    else {
+                    else
+                    {
                         //TODO : 안전성 검사(e.g. Interval이 1개인 경우)
                         j = 0;
-                        do {
+                        do
+                        {
                             disjoinedIntervals.push(new Interval(sortedPoints[j], sortedPoints[j + 1]));
                             ++j;
                         }
@@ -145,21 +163,26 @@ var Interval = (function ()
         var epsilon = isNumber(arguments[3]) ? arguments[3] : _epsilon;
 
         var min = arguments[1];
-        if(isUndefined(min)) {
+        if(isUndefined(min))
+        {
             min = Number.MIN_VALUE;
         }
-        else if(!isNumber(min)) {
+        else if(!isNumber(min))
+        {
             throw new TypeError("'minimumValue' must be a number.");
         }
 
         var max = arguments[2];
-        if(isUndefined(max)) {
+        if(isUndefined(max))
+        {
             max = Number.MIN_VALUE;
         }
-        else if(!isNumber(max)) {
+        else if(!isNumber(max))
+        {
             throw new TypeError("'maximumValue' must be a number.");
         }
-        else if(relativelyLessThan(max, min, epsilon)) {
+        else if(relativelyLessThan(max, min, epsilon))
+        {
             throw new RangeError(
                 "'maximumValue'"
                 + " cannot be less than "
@@ -170,8 +193,10 @@ var Interval = (function ()
         var disjoined = Interval.disjoin(intervals, true, epsilon);
 
         // TODO : Verify that this function works as expected.
-        for(var i = 0, j = 1; j < disjoined.length; ++i, ++j) {
-            if(relativelyEquals(disjoined[i]._max, disjoined[j]._min, _epsilon)) {
+        for(var i = 0, j = 1; j < disjoined.length; ++i, ++j)
+        {
+            if(relativelyEquals(disjoined[i]._max, disjoined[j]._min, _epsilon))
+            {
                 throw new Error(
                     "'Interval.merge' method"
                     + " does wrong behaviour."
@@ -203,15 +228,18 @@ var Interval = (function ()
         var intervalCount = disjoinedIntervals.length;
         var i, j = 0;
 
-        if(intervalCount > 0) {
+        if(intervalCount > 0)
+        {
             min = disjoinedIntervals[j]._min;
-            if(Number.isSafeInteger(min)) {
+            if(Number.isSafeInteger(min))
+            {
                 negatedIntervals.push(new Interval(
                     Number.isSafeInteger(arguments[1]) ? arguments[1] : Number.MIN_SAFE_INTEGER,
                     min - 1
                 ));
             }
-            else {
+            else
+            {
                 negatedIntervals.push(new Interval(
                     isNumber(arguments[1]) ? arguments[1] : -Number.MAX_VALUE,
                     min - epsilon
@@ -222,7 +250,8 @@ var Interval = (function ()
             ++j;
         }
 
-        for(; j < intervalCount; ++j, ++i) {
+        for(; j < intervalCount; ++j, ++i)
+        {
             max = disjoinedIntervals[i]._max;
             min = disjoinedIntervals[j]._min;
             negatedIntervals.push(new Interval(
@@ -231,15 +260,18 @@ var Interval = (function ()
             ));
         }
 
-        if(i < intervalCount) {
+        if(i < intervalCount)
+        {
             max = disjoinedIntervals[i]._max;
-            if(Number.isSafeInteger(max)) {
+            if(Number.isSafeInteger(max))
+            {
                 negatedIntervals.push(new Interval(
                     max + 1,
                     Number.isSafeInteger(arguments[2]) ? arguments[2] : Number.MAX_SAFE_INTEGER
                 ));
             }
-            else {
+            else
+            {
                 negatedIntervals.push(new Interval(
                     max + epsilon,
                     isNumber(arguments[2]) ? arguments[2] : Number.MAX_VALUE
@@ -265,21 +297,26 @@ var Interval = (function ()
         var targetIndex = (isUndefined(arguments[1]) ? 0 : arguments[1]);
         var len = sortedListSet.length;
         var visitFlags = [];
-        for(i = 0; i < len; ++i) {
+        for(i = 0; i < len; ++i)
+        {
             visitFlags.push(false);
         }
 
         var closureStartIndex = targetIndex;
         var closureInclusiveEndIndex = targetIndex;
         var targetIndices = [targetIndex];
-        for(; targetIndices.length > 0; ) {
+        for(; targetIndices.length > 0; )
+        {
             i = targetIndices.pop();
-            if(!visitFlags[i]) {
+            if(!visitFlags[i])
+            {
                 visitFlags[i] = true;
 
                 var lhs = sortedListSet[i];
-                for(var j = 0; j < len; ++j) {
-                    if(j !== i && lhs.intersectsWith(sortedListSet[j])) {
+                for(var j = 0; j < len; ++j)
+                {
+                    if(j !== i && lhs.intersectsWith(sortedListSet[j]))
+                    {
                         targetIndices.push(j);
 
                         closureStartIndex = (closureStartIndex > j ? j : closureStartIndex);
@@ -290,7 +327,8 @@ var Interval = (function ()
         }
 
         var closure = [];
-        for(i = closureStartIndex; i <= closureInclusiveEndIndex; ++i) {
+        for(i = closureStartIndex; i <= closureInclusiveEndIndex; ++i)
+        {
             closure.push(sortedListSet[i]);
         }
 
@@ -324,15 +362,18 @@ var Interval = (function ()
         {
             var result = this === rhs;
 
-            if(!result) {
+            if(!result)
+            {
                 var epsilon = isNumber(arguments[1]) ? arguments[1] : _epsilon;
 
-                if(rhs instanceof Interval) {
+                if(rhs instanceof Interval)
+                {
                     result = relativelyEquals(this._min, rhs._min, epsilon)
                         && relativelyEquals(this._max, rhs._max, epsilon)
                     ;
                 }
-                else if(isNumber(rhs)) {
+                else if(isNumber(rhs))
+                {
                     result = relativelyEquals(this._min, this._max, epsilon)
                         && relativelyEquals(this._min, rhs, epsilon)
                     ;
@@ -351,17 +392,19 @@ var Interval = (function ()
             var epsilon = isNumber(arguments[1]) ? arguments[1] : _epsilon;
 
             var result = -1;
-            if(this.equals(rhs, epsilon)) {
+            if(this.equals(rhs, epsilon))
+            {
                 result = 0;
             }
-            else {
+            else
+            {
                 var target = _coerceArgumentToInterval(rhs);
                 var diff = this._min - target._min;
 
                 result = (
                     relativelyEquals(diff, 0, epsilon)
-                    ? 0
-                    : diff
+                        ? 0
+                        : diff
                 );
             }
 
@@ -378,10 +421,12 @@ var Interval = (function ()
 
             var result = false;
             var target = _coerceArgumentToInterval(rhs);
-            if(relativelyLessThan(this._min, target._min, epsilon)) {
+            if(relativelyLessThan(this._min, target._min, epsilon))
+            {
                 result = relativelyGreaterThanOrEqualTo(this._max, target._min, epsilon) && relativelyGreaterThanOrEqualTo(target._max, this._min, epsilon);
             }
-            else {
+            else
+            {
                 result = relativelyGreaterThanOrEqualTo(target._max, this._min, epsilon) && relativelyGreaterThanOrEqualTo(this._max, target._min, epsilon);
             }
 
@@ -401,25 +446,32 @@ var Interval = (function ()
 
             var result = true;
 
-            if(rhs instanceof Interval) {
+            if(rhs instanceof Interval)
+            {
                 result = relativelyGreaterThanOrEqualTo(rhs._min, this._min, epsilon)
                     && relativelyLessThanOrEqualTo(rhs._max, this._max, epsilon)
                 ;
             }
-            else if(isNumber(rhs)) {
+            else if(isNumber(rhs))
+            {
                 result = Interval_isValueInInterval(this, rhs, epsilon);
             }
-            else if(Array.isArray(rhs)) {
-                for(i = 0, len = rhs.length; result && i < len; ++i) {
+            else if(Array.isArray(rhs))
+            {
+                for(i = 0, len = rhs.length; result && i < len; ++i)
+                {
                     result = this.contains(rhs[i], epsilon);
                 }
             }
-            else if(isString(rhs)) {
-                for(i = 0; result && i < rhs.length; ++i) {
+            else if(isString(rhs))
+            {
+                for(i = 0; result && i < rhs.length; ++i)
+                {
                     result = Interval_isValueInInterval(this, rhs.charCodeAt(i), epsilon);
                 }
             }
-            else {
+            else
+            {
                 throw new TypeError("The parameter must be either an Interval instance, an array, a string or a number.");
             }
 
@@ -438,26 +490,30 @@ var Interval = (function ()
 
             var negatedIntervals = [];
 
-            if(Number.isSafeInteger(this._min)) {
+            if(Number.isSafeInteger(this._min))
+            {
                 negatedIntervals.push(new Interval(
                     Number.isSafeInteger(arguments[0]) ? arguments[0] : _minInt,
                     this._min - 1
                 ));
             }
-            else {
+            else
+            {
                 negatedIntervals.push(new Interval(
                     isNumber(arguments[0]) ? arguments[0] : -Number.MAX_VALUE,
                     this._min - epsilon
                 ));
             }
 
-            if(Number.isSafeInteger(this._max)) {
+            if(Number.isSafeInteger(this._max))
+            {
                 negatedIntervals.push(new Interval(
                     Number.isSafeInteger(arguments[1]) ? arguments[1] : _maxInt,
                     this._max + 1
                 ));
             }
-            else {
+            else
+            {
                 negatedIntervals.push(new Interval(
                     isNumber(arguments[1]) ? arguments[1] : Number.MAX_VALUE,
                     this._max + epsilon
@@ -473,7 +529,8 @@ var Interval = (function ()
          */
         exclude : function exclude(other)
         {
-            if(!(other instanceof Interval)) {
+            if(!(other instanceof Interval))
+            {
                 throw new TypeError("'other' must be an instance of 'Interval'.");
             }
 
@@ -482,9 +539,11 @@ var Interval = (function ()
             var disjoinedIntevals = Interval.disjoin([this, other], false, epsilon);
             var results = [];
 
-            for(var i = 0; i < disjoinedIntevals.length; ++i) {
+            for(var i = 0; i < disjoinedIntevals.length; ++i)
+            {
                 var interval = disjoinedIntevals[i];
-                if(!other.contains(interval, epsilon)) {
+                if(!other.contains(interval, epsilon))
+                {
                     results.push(interval);
                 }
             }
@@ -505,11 +564,11 @@ var Interval = (function ()
          */
         toString : function toString()
         {
-            return '['
+            return "["
                 + _intToString(this._min)
-                + ','
+                + ","
                 + _intToString(this._max)
-                + ']'
+                + "]"
             ;
         }
     });
@@ -534,7 +593,8 @@ var Interval = (function ()
      */
     function _assertIsInterval(o)
     {
-        if(!(o instanceof Interval)) {
+        if(!(o instanceof Interval))
+        {
             throw new TypeError("The parameter must be an instance of Interval.");
         }
     }
@@ -558,27 +618,34 @@ var Interval = (function ()
 
         var len = sortedArray.length;
         var result = true;
-        if(len < 1) {
+        if(len < 1)
+        {
             sortedArray.push(o);
         }
-        else {
+        else
+        {
             var loop = true;
-            for(var i = 0; loop && i < len; ) {
-                var cp = comparer.call(thisArg, sortedArray[i], o);                        
-                if(cp === 0) {
+            for(var i = 0; loop && i < len; )
+            {
+                var cp = comparer.call(thisArg, sortedArray[i], o);
+                if(cp === 0)
+                {
                     result = false;
                     loop = false;
                 }
-                else if(cp > 0) {
+                else if(cp > 0)
+                {
                     sortedArray.splice(i, 0, o);
                     loop = false;
                 }
-                else {
+                else
+                {
                     ++i;
                 }
             }
 
-            if(loop) {
+            if(loop)
+            {
                 sortedArray.push(o);
             }
         }
@@ -594,7 +661,8 @@ var Interval = (function ()
     function _intervalComparerForSort(l, r)
     {
         var diff = l._min - r._min;
-        if(relativelyEquals(diff, 0, this.epsilon)) {
+        if(relativelyEquals(diff, 0, this.epsilon))
+        {
             return (l.equals(r) ? 0 : -1);
         }
 
@@ -611,7 +679,8 @@ var Interval = (function ()
             epsilon : (isNumber(arguments[1]) ? arguments[1] : _epsilon)
         };
         /**  @type {Interval[]} */var sortedIntervals = [];
-        for(var i = 0, len = intervals.length; i < len; ++i) {
+        for(var i = 0, len = intervals.length; i < len; ++i)
+        {
             _insertIfNotExistAndSort(
                 sortedIntervals,
                 intervals[i],
@@ -629,7 +698,8 @@ var Interval = (function ()
     function _coerceArgumentToInterval(o)
     {
         var result = o;
-        if(isNumber(o)) {
+        if(isNumber(o))
+        {
             result = new Interval(o, o);
         }
 
@@ -650,30 +720,35 @@ var Interval = (function ()
             var i = startIndex, len = sortedListSet.length;
             i < endOfClosureIndex && i < len;
             ++i
-        ) {
+        )
+        {
             var current = sortedListSet[i];
 
             var loopJ = true;
             var endOfNeighborIndex = i + 1;
-            for(var j = endOfNeighborIndex; loopJ && j < len; ) {
+            for(var j = endOfNeighborIndex; loopJ && j < len; )
+            {
                 var other = sortedListSet[j];
 
-                if(current._max < other._min) {
+                if(current._max < other._min)
+                {
                     endOfNeighborIndex = j;
                     loopJ = false;
                 }
-                else {
+                else
+                {
                     ++j;
                 }
             }
-            if(loopJ) {
+            if(loopJ)
+            {
                 endOfNeighborIndex = len;
             }
 
             endOfClosureIndex = (
                 endOfClosureIndex < endOfNeighborIndex
-                ? endOfNeighborIndex
-                : endOfClosureIndex
+                    ? endOfNeighborIndex
+                    : endOfClosureIndex
             );
         }
 
@@ -687,13 +762,16 @@ var Interval = (function ()
     {
         var str = "";
 
-        if(v === _maxInt) {
+        if(v === _maxInt)
+        {
             str = "INT_MAX";
         }
-        else if(v === _minInt) {
+        else if(v === _minInt)
+        {
             str = "INT_MIN";
         }
-        else {
+        else
+        {
             str = v.toString();
         }
 

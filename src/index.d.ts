@@ -1,1 +1,1 @@
-export { Interval } from "./interval";
+export * from "./interval";
