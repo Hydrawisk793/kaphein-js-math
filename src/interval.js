@@ -1,6 +1,7 @@
-var isUndefined = require("kaphein-js").isUndefined;
-var isString = require("kaphein-js").isString;
-var isNumber = require("kaphein-js").isNumber;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isUndefined = kapheinJsTypeTrait.isUndefined;
+var isString = kapheinJsTypeTrait.isString;
+var isNumber = kapheinJsTypeTrait.isNumber;
 
 var comparsion = require("./comparison");
 var relativelyEquals = comparsion.relativelyEquals;
