@@ -1,5 +1,5 @@
-var Interval = require("./interval").Interval;
-
-module.exports = {
-    Interval : Interval
-};
+module.exports = Object.assign(
+    {},
+    require("./comparison"),
+    require("./interval")
+);
