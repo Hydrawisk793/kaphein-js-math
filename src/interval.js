@@ -1,10 +1,13 @@
-var isUndefined = require("kaphein-js").isUndefined;
-var isString = require("kaphein-js").isString;
-var isNumber = require("kaphein-js").isNumber;
-var relativelyEquals = require("kaphein-js").relativelyEquals;
-var relativelyGreaterThanOrEqualTo = require("kaphein-js").relativelyGreaterThanOrEqualTo;
-var relativelyLessThanOrEqualTo = require("kaphein-js").relativelyLessThanOrEqualTo;
-var relativelyLessThan = require("kaphein-js").relativelyLessThan;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isUndefined = kapheinJsTypeTrait.isUndefined;
+var isString = kapheinJsTypeTrait.isString;
+var isNumber = kapheinJsTypeTrait.isNumber;
+
+var comparsion = require("./comparison");
+var relativelyEquals = comparsion.relativelyEquals;
+var relativelyGreaterThanOrEqualTo = comparsion.relativelyGreaterThanOrEqualTo;
+var relativelyLessThanOrEqualTo = comparsion.relativelyLessThanOrEqualTo;
+var relativelyLessThan = comparsion.relativelyLessThan;
 
 var Interval = (function ()
 {
